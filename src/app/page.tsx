@@ -291,8 +291,8 @@ export default async function Home() {
                         {/* Survey Card */}
                         <Card className="bg-card backdrop-blur-md border-2 border-border hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                             <CardHeader>
-                                <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
-                                    <CheckCircle className="w-7 h-7 text-accent" />
+                                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                                    <CheckCircle className="w-7 h-7 text-primary" />
                                 </div>
                                 <CardTitle className="text-3xl font-serif">Help Us Build for You</CardTitle>
                                 <CardDescription className="text-lg">
