@@ -1,0 +1,347 @@
+import { pgTable, serial, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+
+export const waitlistEntries = pgTable("waitlist_entries", {
+    id: serial("id").primaryKey(),
+    email: text("email").notNull(),
+    name: text("name").notNull(),
+    riadName: text("riad_name"),
+    role: text("role"), // This will store location from the form
+    status: text("status").default("pending"), // pending, contacted, approved
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const contactMessages = pgTable("contact_messages", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone"),
+    riadName: text("riad_name"),
+    subject: text("subject").default("General Inquiry"),
+    message: text("message").notNull(),
+    status: text("status").default("unread"), // unread, read
+    priority: boolean("priority").default(false),
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const siteContent = pgTable("site_content", {
+    id: serial("id").primaryKey(),
+    key: text("key").notNull().unique(), // e.g., "hero_title", "contact_email"
+    value: text("value").notNull(),
+    section: text("section"), // e.g., "home", "contact"
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Booking Requests (Riad Reservations)
+export const bookingRequests = pgTable("booking_requests", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    checkIn: text("check_in").notNull(),
+    checkOut: text("check_out").notNull(),
+    adults: integer("adults").notNull(),
+    children: integer("children").default(0),
+    roomPreferences: text("room_preferences"),
+    specialRequests: text("special_requests"),
+    budgetRange: text("budget_range"),
+    status: text("status").default("pending"), // pending, confirmed, completed, cancelled
+    priority: boolean("priority").default(false),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Transport Requests (Airport Pickup, Transfers)
+export const transportRequests = pgTable("transport_requests", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    serviceType: text("service_type").notNull(), // airport_pickup, city_transfer, day_rental
+    pickupLocation: text("pickup_location").notNull(),
+    pickupDateTime: text("pickup_date_time").notNull(),
+    dropoffLocation: text("dropoff_location").notNull(),
+    passengers: integer("passengers").notNull(),
+    luggage: text("luggage"),
+    vehiclePreference: text("vehicle_preference"),
+    flightDetails: text("flight_details"),
+    specialRequests: text("special_requests"),
+    status: text("status").default("pending"),
+    priority: boolean("priority").default(false),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Tour Bookings (Excursions, Cultural Activities)
+export const tourBookings = pgTable("tour_bookings", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    tourType: text("tour_type").notNull(), // city_tour, desert_excursion, cultural_experience, shopping, other
+    preferredDate: text("preferred_date").notNull(),
+    preferredTime: text("preferred_time"),
+    participants: integer("participants").notNull(),
+    languagePreference: text("language_preference"),
+    accessibilityRequirements: text("accessibility_requirements"),
+    dietaryRestrictions: text("dietary_restrictions"),
+    specialInterests: text("special_interests"),
+    budgetRange: text("budget_range"),
+    status: text("status").default("pending"),
+    priority: boolean("priority").default(false),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Food Experiences (Dining, Cooking Classes)
+export const foodExperiences = pgTable("food_experiences", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    experienceType: text("experience_type").notNull(), // traditional_dining, cooking_class, food_tour
+    preferredDate: text("preferred_date").notNull(),
+    preferredTime: text("preferred_time"),
+    guests: integer("guests").notNull(),
+    dietaryRestrictions: text("dietary_restrictions"),
+    cuisinePreferences: text("cuisine_preferences"),
+    specialOccasion: text("special_occasion"),
+    specialRequests: text("special_requests"),
+    status: text("status").default("pending"),
+    priority: boolean("priority").default(false),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Wellness Requests (Spa, Health Services)
+export const wellnessRequests = pgTable("wellness_requests", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    serviceType: text("service_type").notNull(), // spa, massage, hammam, yoga, other
+    preferredDate: text("preferred_date").notNull(),
+    preferredTime: text("preferred_time"),
+    numberOfPeople: integer("number_of_people").notNull(),
+    treatmentPreferences: text("treatment_preferences"),
+    healthConsiderations: text("health_considerations"),
+    durationPreference: text("duration_preference"),
+    specialRequests: text("special_requests"),
+    status: text("status").default("pending"),
+    priority: boolean("priority").default(false),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Business Collaborations
+export const businessCollaborations = pgTable("business_collaborations", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    companyName: text("company_name").notNull(),
+    businessType: text("business_type").notNull(),
+    collaborationInterest: text("collaboration_interest").notNull(),
+    proposalDetails: text("proposal_details").notNull(),
+    expectedTimeline: text("expected_timeline"),
+    website: text("website"),
+    status: text("status").default("pending"),
+    import { pgTable, serial, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+
+    export const waitlistEntries = pgTable("waitlist_entries", {
+        id: serial("id").primaryKey(),
+        email: text("email").notNull(),
+        name: text("name").notNull(),
+        riadName: text("riad_name"),
+        role: text("role"), // This will store location from the form
+        status: text("status").default("pending"), // pending, contacted, approved
+        createdAt: timestamp("created_at").defaultNow(),
+    });
+
+    export const contactMessages = pgTable("contact_messages", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone"),
+        riadName: text("riad_name"),
+        subject: text("subject").default("General Inquiry"),
+        message: text("message").notNull(),
+        status: text("status").default("unread"), // unread, read
+        priority: boolean("priority").default(false),
+        createdAt: timestamp("created_at").defaultNow(),
+    });
+
+    export const siteContent = pgTable("site_content", {
+        id: serial("id").primaryKey(),
+        key: text("key").notNull().unique(), // e.g., "hero_title", "contact_email"
+        value: text("value").notNull(),
+        section: text("section"), // e.g., "home", "contact"
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Booking Requests (Riad Reservations)
+    export const bookingRequests = pgTable("booking_requests", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        checkIn: text("check_in").notNull(),
+        checkOut: text("check_out").notNull(),
+        adults: integer("adults").notNull(),
+        children: integer("children").default(0),
+        roomPreferences: text("room_preferences"),
+        specialRequests: text("special_requests"),
+        budgetRange: text("budget_range"),
+        status: text("status").default("pending"), // pending, confirmed, completed, cancelled
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Transport Requests (Airport Pickup, Transfers)
+    export const transportRequests = pgTable("transport_requests", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        serviceType: text("service_type").notNull(), // airport_pickup, city_transfer, day_rental
+        pickupLocation: text("pickup_location").notNull(),
+        pickupDateTime: text("pickup_date_time").notNull(),
+        dropoffLocation: text("dropoff_location").notNull(),
+        passengers: integer("passengers").notNull(),
+        luggage: text("luggage"),
+        vehiclePreference: text("vehicle_preference"),
+        flightDetails: text("flight_details"),
+        specialRequests: text("special_requests"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Tour Bookings (Excursions, Cultural Activities)
+    export const tourBookings = pgTable("tour_bookings", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        tourType: text("tour_type").notNull(), // city_tour, desert_excursion, cultural_experience, shopping, other
+        preferredDate: text("preferred_date").notNull(),
+        preferredTime: text("preferred_time"),
+        participants: integer("participants").notNull(),
+        languagePreference: text("language_preference"),
+        accessibilityRequirements: text("accessibility_requirements"),
+        dietaryRestrictions: text("dietary_restrictions"),
+        specialInterests: text("special_interests"),
+        budgetRange: text("budget_range"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Food Experiences (Dining, Cooking Classes)
+    export const foodExperiences = pgTable("food_experiences", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        experienceType: text("experience_type").notNull(), // traditional_dining, cooking_class, food_tour
+        preferredDate: text("preferred_date").notNull(),
+        preferredTime: text("preferred_time"),
+        guests: integer("guests").notNull(),
+        dietaryRestrictions: text("dietary_restrictions"),
+        cuisinePreferences: text("cuisine_preferences"),
+        specialOccasion: text("special_occasion"),
+        specialRequests: text("special_requests"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Wellness Requests (Spa, Health Services)
+    export const wellnessRequests = pgTable("wellness_requests", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        serviceType: text("service_type").notNull(), // spa, massage, hammam, yoga, other
+        preferredDate: text("preferred_date").notNull(),
+        preferredTime: text("preferred_time"),
+        numberOfPeople: integer("number_of_people").notNull(),
+        treatmentPreferences: text("treatment_preferences"),
+        healthConsiderations: text("health_considerations"),
+        durationPreference: text("duration_preference"),
+        specialRequests: text("special_requests"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Business Collaborations
+    export const businessCollaborations = pgTable("business_collaborations", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        companyName: text("company_name").notNull(),
+        businessType: text("business_type").notNull(),
+        collaborationInterest: text("collaboration_interest").notNull(),
+        proposalDetails: text("proposal_details").notNull(),
+        expectedTimeline: text("expected_timeline"),
+        website: text("website"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // General Service Requests (Accommodation Rental, Other Services)
+    export const generalServiceRequests = pgTable("general_service_requests", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone").notNull(),
+        serviceType: text("service_type").notNull(), // accommodation_rental, other
+        description: text("description").notNull(),
+        preferredDate: text("preferred_date"),
+        preferredTime: text("preferred_time"),
+        budgetRange: text("budget_range"),
+        specialRequirements: text("special_requirements"),
+        status: text("status").default("pending"),
+        priority: boolean("priority").default(false),
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });
+
+    // Survey Responses (Riad Owner Surveys)
+    export const surveyResponses = pgTable("survey_responses", {
+        id: serial("id").primaryKey(),
+        name: text("name").notNull(),
+        email: text("email").notNull(),
+        phone: text("phone"),
+        riadName: text("riad_name").notNull(),
+        location: text("location"),
+        currentChallenges: text("current_challenges"),
+        digitalTools: text("digital_tools"),
+        budget: text("budget"),
+        priorities: text("priorities"),
+        additionalComments: text("additional_comments"),
+        status: text("status").default("pending"), // pending, reviewed, contacted
+        notes: text("notes"),
+        createdAt: timestamp("created_at").defaultNow(),
+        updatedAt: timestamp("updated_at").defaultNow(),
+    });

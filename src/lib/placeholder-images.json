@@ -1,0 +1,10 @@
+{
+    "hero": {
+        "alt": "A beautiful Riad courtyard with a fountain and mosaic tiles",
+        "src": "/hero-riad.jpg"
+    },
+    "founder": {
+        "alt": "Mounir Banni, Founder of RiadConnect",
+        "src": "/founder-mounir.jpg"
+    }
+}
